@@ -93,9 +93,9 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
   dashboard.style.display = 'none';
 });
 
-// ---------- WEBSOCKET ----------
 function connectWebSocket() {
-  const ws = new WebSocket(`ws://${window.location.host}/ws/${currentUser.id}`);
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const ws = new WebSocket(`${protocol}//${window.location.host}/ws/${currentUser.id}`);
   ws.onopen = () => console.log('WebSocket connected');
   ws.onmessage = (event) => {
     const msg = JSON.parse(event.data);
@@ -402,6 +402,7 @@ async function startCall(targetId) {
   try {
     localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
     peerConnection = new RTCPeerConnection({ iceServers: [] });
+
     peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
         socket.send(JSON.stringify({
@@ -411,6 +412,7 @@ async function startCall(targetId) {
         }));
       }
     };
+
     peerConnection.ontrack = (event) => {
       const audio = document.getElementById('remote-audio');
       if (audio) {
@@ -418,16 +420,21 @@ async function startCall(targetId) {
         audio.play();
       }
     };
+
     localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
     const offer = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(offer);
+
     socket.send(JSON.stringify({
       type: 'call_offer',
       target: callTarget,
-      sdp: offer
+      sdp: { type: offer.type, sdp: offer.sdp }   // explicit format
     }));
+
     document.getElementById('call-status').style.display = 'block';
   } catch (e) {
+    console.error('startCall error:', e);
     alert('Could not start call: ' + e.message);
   }
 }
@@ -435,11 +442,21 @@ async function startCall(targetId) {
 function handleCallOffer(from, sdp) {
   if (confirm(`Incoming call from user ${from}. Accept?`)) {
     callTarget = from;
-    // Answer
     (async () => {
       try {
+        // Clean up any existing call
+        if (peerConnection) {
+          peerConnection.close();
+          peerConnection = null;
+        }
+        if (localStream) {
+          localStream.getTracks().forEach(t => t.stop());
+          localStream = null;
+        }
+
         localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
         peerConnection = new RTCPeerConnection({ iceServers: [] });
+
         peerConnection.onicecandidate = (event) => {
           if (event.candidate) {
             socket.send(JSON.stringify({
@@ -449,6 +466,7 @@ function handleCallOffer(from, sdp) {
             }));
           }
         };
+
         peerConnection.ontrack = (event) => {
           const audio = document.getElementById('remote-audio');
           if (audio) {
@@ -456,35 +474,53 @@ function handleCallOffer(from, sdp) {
             audio.play();
           }
         };
+
         localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-        await peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));
+
+        // Set remote description with explicit object
+        await peerConnection.setRemoteDescription({ type: sdp.type, sdp: sdp.sdp });
+
         const answer = await peerConnection.createAnswer();
         await peerConnection.setLocalDescription(answer);
+
         socket.send(JSON.stringify({
           type: 'call_answer',
           target: callTarget,
-          sdp: answer
+          sdp: { type: answer.type, sdp: answer.sdp }
         }));
+
         document.getElementById('call-status').style.display = 'block';
       } catch (e) {
-        alert('Call setup failed');
+        console.error('handleCallOffer error:', e);
+        alert('Call setup failed: ' + e.message);
+        // Clean up
+        if (peerConnection) { peerConnection.close(); peerConnection = null; }
+        if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
+        socket.send(JSON.stringify({ type: 'end_call', target: from }));
       }
     })();
   } else {
-    // reject
     socket.send(JSON.stringify({ type: 'end_call', target: from }));
   }
 }
 
 function handleCallAnswer(from, sdp) {
   if (peerConnection) {
-    peerConnection.setRemoteDescription(new RTCSessionDescription(sdp));
+    try {
+      peerConnection.setRemoteDescription({ type: sdp.type, sdp: sdp.sdp });
+    } catch (e) {
+      console.error('handleCallAnswer error:', e);
+    }
   }
 }
 
 function handleIceCandidate(from, candidate) {
   if (peerConnection) {
-    peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    try {
+      peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    } catch (e) {
+      console.error('addIceCandidate error:', e);
+    }
   }
 }
 

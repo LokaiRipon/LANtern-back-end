@@ -1,3 +1,4 @@
+import os 
 import sys
 import json
 import threading
@@ -311,6 +312,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: int):
                         "from": user_id,
                         "candidate": data.get("candidate")
                     })
+                    
             elif msg_type == "end_call":
                 target = data.get("target")
                 if target:
@@ -345,5 +347,20 @@ def open_browser():
     webbrowser.open("http://127.0.0.1:8000")
 
 if __name__ == "__main__":
-    threading.Timer(1.5, open_browser).start()
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Check if certificate and key exist
+    use_ssl = os.path.exists("cert.pem") and os.path.exists("key.pem")
+    
+    if use_ssl:
+        print("🔒 HTTPS enabled with self-signed certificate")
+        # Open browser with https on localhost
+        threading.Timer(1.5, lambda: webbrowser.open("https://127.0.0.1:8000")).start()
+        uvicorn.run(
+            app,
+            host="0.0.0.0",
+            port=8000,
+            ssl_keyfile="key.pem",
+            ssl_certfile="cert.pem"
+        )
+    else:
+        threading.Timer(1.5, lambda: webbrowser.open("http://127.0.0.1:8000")).start()
+        uvicorn.run(app, host="0.0.0.0", port=8000)
