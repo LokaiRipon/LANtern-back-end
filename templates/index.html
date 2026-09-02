@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LANtern Command</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="login-container">
+      <div class="login-box">
+        <div class="login-logo">
+          <i class="fas fa-shield-alt"></i>
+          <span>LANtern</span>
+        </div>
+        <h1>Command</h1>
+        <p class="motto">Secure · Reliable · Tactical</p>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="login-btn">Log In</button>
+        <div id="login-error" class="error"></div>
+        <div class="register-link">
+          <span>New? <a href="#" id="register-toggle">Register</a></span>
+        </div>
+        <!-- Registration form (hidden) -->
+        <div id="register-form" style="display: none; margin-top: 15px;">
+          <input type="text" id="reg-username" placeholder="Username">
+          <input type="password" id="reg-password" placeholder="Password">
+          <input type="text" id="reg-fullname" placeholder="Full Name">
+          <select id="reg-role">
+            <option value="Employee">Employee</option>
+            <option value="Manager">Manager</option>
+            <option value="CEO">CEO</option>
+          </select>
+          <input type="text" id="reg-dept" placeholder="Department (optional)">
+          <button id="register-btn">Register</button>
+          <div id="register-error" class="error"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" style="display: none;">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="sidebar-brand">
+          <i class="fas fa-shield-alt"></i> LANtern
+        </div>
+        <ul>
+          <li class="active" data-view="mail"><i class="fas fa-envelope"></i> Mail</li>
+          <li data-view="pa"><i class="fas fa-bullhorn"></i> PA</li>
+          <li data-view="meetings"><i class="fas fa-calendar-alt"></i> Meetings</li>
+          <li data-view="calls"><i class="fas fa-phone"></i> Calls</li>
+          <li data-view="users"><i class="fas fa-users"></i> Users</li>
+        </ul>
+        <div class="sidebar-footer">
+          <span id="user-info"></span>
+          <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="content">
+        <div id="view-container">
+          <!-- Dynamic content -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

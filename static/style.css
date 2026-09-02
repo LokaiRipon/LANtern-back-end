@@ -1,0 +1,302 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Lato', sans-serif;
+  background: #2c2c2c;
+  color: #e0e0e0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---------- LOGIN ---------- */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #2d3a26, #1a2117);
+}
+.login-box {
+  background: #2d3a26;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.8);
+  text-align: center;
+  border: 1px solid #5e6f4b;
+  width: 380px;
+}
+.login-logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.2rem;
+  color: #d4af37;
+  letter-spacing: 2px;
+}
+.login-logo i {
+  margin-right: 10px;
+}
+.login-box h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.8rem;
+  color: #d4af37;
+  letter-spacing: 4px;
+  margin-top: -5px;
+}
+.login-box .motto {
+  color: #c3b091;
+  font-style: italic;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+}
+.login-box input,
+.login-box select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  background: #1f2a1b;
+  border: 1px solid #5e6f4b;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+.login-box input::placeholder {
+  color: #8a9b7a;
+}
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background: #d4af37;
+  border: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #1a2117;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.login-box button:hover {
+  background: #c49b2a;
+}
+.error {
+  color: #e74c3c;
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+.register-link {
+  margin-top: 15px;
+  color: #c3b091;
+}
+.register-link a {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: bold;
+}
+#register-form {
+  border-top: 1px solid #5e6f4b;
+  padding-top: 15px;
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar {
+  width: 220px;
+  background: #1f2a1b;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-right: 2px solid #5e6f4b;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-brand {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.8rem;
+  color: #d4af37;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #5e6f4b;
+}
+.sidebar-brand i {
+  margin-right: 8px;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 10px 0;
+  flex: 1;
+}
+.sidebar ul li {
+  padding: 14px 20px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: 0.2s;
+  font-size: 1rem;
+}
+.sidebar ul li:hover,
+.sidebar ul li.active {
+  background: #2d3a26;
+  border-left-color: #d4af37;
+}
+.sidebar ul li i {
+  margin-right: 12px;
+  width: 20px;
+  color: #c3b091;
+}
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid #5e6f4b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #c3b091;
+}
+.sidebar-footer button {
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+.sidebar-footer button:hover {
+  color: #d4af37;
+}
+
+/* ---------- CONTENT ---------- */
+.content {
+  margin-left: 220px;
+  padding: 30px 40px;
+  height: 100vh;
+  overflow-y: auto;
+  background: #2c2c2c;
+}
+.content h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  color: #d4af37;
+  border-bottom: 1px solid #5e6f4b;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+.content h2 i {
+  margin-right: 15px;
+}
+.card {
+  background: #3a4a2f;
+  border: 1px solid #5e6f4b;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #d4af37;
+}
+.card-body {
+  margin-top: 8px;
+  color: #e0e0e0;
+}
+.card-footer {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #c3b091;
+  border-top: 1px solid #5e6f4b;
+  padding-top: 8px;
+}
+.btn {
+  background: #5e6f4b;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-primary {
+  background: #d4af37;
+  color: #1a2117;
+}
+.btn-primary:hover {
+  background: #c49b2a;
+}
+.btn-danger {
+  background: #c0392b;
+}
+.btn-danger:hover {
+  background: #a93226;
+}
+input[type="text"],
+textarea,
+select {
+  background: #1f2a1b;
+  border: 1px solid #5e6f4b;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 10px;
+  font-family: 'Lato', sans-serif;
+}
+textarea {
+  resize: vertical;
+}
+.flex-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.flex-row > * {
+  flex: 1;
+}
+.meeting-item {
+  background: #2d3a26;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  border-left: 4px solid #d4af37;
+}
+.meeting-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.meeting-time {
+  color: #c3b091;
+  font-size: 0.9rem;
+}
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.user-chip {
+  background: #1f2a1b;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #5e6f4b;
+  font-size: 0.85rem;
+}
+.user-chip.online {
+  border-color: #27ae60;
+}
+.user-chip .role-badge {
+  color: #d4af37;
+  margin-left: 6px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+/* ---------- CALL UI ---------- */
+.call-container {
+  background: #1f2a1b;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin: 20px 0;
+}
+.call-status {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+.remote-audio {
+  display: none;
+}
